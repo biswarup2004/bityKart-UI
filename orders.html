@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BityKart | My Orders</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">BityKart</div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Clothing</a></li>
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Accessories</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </div>
+                
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn btn-outline" onclick="showModal('signin')">Sign In</button>
+                    <button class="btn btn-primary" onclick="showModal('signup')">Sign Up</button>
+                </div>
+                
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <div class="user-profile-dropdown" onclick="toggleUserDropdown()">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span id="user-name">Welcome, User!</span>
+                        <i class="fas fa-chevron-down" id="dropdown-arrow"></i>
+                    </div>
+                    <div class="user-dropdown" id="user-dropdown">
+                        <div class="user-info">
+                            <div class="avatar-large">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h4 id="profile-name">User Name</h4>
+                                <p id="profile-email">user@email.com</p>
+                                <p class="member-since">Member since 2024</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <ul class="dropdown-menu">
+                            <li onclick="window.location.href='profile.html'">
+                                <i class="fas fa-user-edit"></i> View Profile
+                            </li>
+                            <li onclick="window.location.href='orders.html'">
+                                <i class="fas fa-shopping-bag"></i> My Orders
+                            </li>
+                            <li onclick="window.location.href='cart.html'">
+                                <i class="fas fa-shopping-cart"></i> My Cart
+                            </li>
+                            <li onclick="showSettings()">
+                                <i class="fas fa-cog"></i> Settings
+                            </li>
+                            <li class="logout-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Orders Page -->
+    <div class="cart-container">
+        <div class="container">
+            <h2 class="section-title">My Orders</h2>
+            <div class="orders-container">
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">Order #BK12345</div>
+                        <div class="order-status status-delivered">Delivered</div>
+                    </div>
+                    <div class="order-items">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=60&h=60&fit=crop" alt="Product">
+                        <div class="order-details">
+                            <h4>Premium Cotton T-Shirt</h4>
+                            <p>Size: L, Color: Blue</p>
+                            <p class="order-date">Ordered on March 15, 2024</p>
+                        </div>
+                        <div class="order-amount">₹1,299</div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-outline btn-small">View Details</button>
+                        <button class="btn btn-primary btn-small">Reorder</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">Order #BK12344</div>
+                        <div class="order-status status-shipped">Shipped</div>
+                    </div>
+                    <div class="order-items">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=60&h=60&fit=crop" alt="Product">
+                        <div class="order-details">
+                            <h4>Wireless Headphones</h4>
+                            <p>Color: Black</p>
+                            <p class="order-date">Ordered on March 18, 2024</p>
+                        </div>
+                        <div class="order-amount">₹4,999</div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-outline btn-small">Track Order</button>
+                        <button class="btn btn-primary btn-small">Contact Support</button>
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">Order #BK12343</div>
+                        <div class="order-status status-pending">Processing</div>
+                    </div>
+                    <div class="order-items">
+                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=60&h=60&fit=crop" alt="Product">
+                        <div class="order-details">
+                            <h4>Designer Watch</h4>
+                            <p>Color: Silver</p>
+                            <p class="order-date">Ordered on March 20, 2024</p>
+                        </div>
+                        <div class="order-amount">₹8,999</div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-outline btn-small">Cancel Order</button>
+                        <button class="btn btn-primary btn-small">Contact Support</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div id="signin-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('signin')">&times;</button>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your account</p>
+            </div>
+            <form id="signin-form">
+                <div class="form-group">
+                    <label for="signin-email">Email</label>
+                    <input type="email" id="signin-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <input type="password" id="signin-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Don't have an account? <a href="#" onclick="closeModal('signin'); showModal('signup');" style="color: var(--primary);">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('signup')">&times;</button>
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <p>Join BityKart today</p>
+            </div>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Already have an account? <a href="#" onclick="closeModal('signup'); showModal('signin');" style="color: var(--primary);">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            updateCartCount();
+            updateAuthUI();
+            checkUserAccess();
+        });
+
+        function checkUserAccess() {
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (!currentUser) {
+                // Redirect to home if not logged in
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+</html>
