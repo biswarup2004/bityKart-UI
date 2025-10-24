@@ -49,13 +49,13 @@ async function loadProducts() {
             
             return `
             <div class="product-card">
-                <img src="${product.imageUrl}" class="product-image" alt="${product.name}">
+                <img src="${product.image_url}" class="product-image" alt="${product.name}">
                 <div class="product-info">
                     <h3 class="product-title">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
                     <div class="product-bottom-section">
                         <div class="product-price">₹${product.price}</div>
-                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.imageUrl}')">
+                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image_url}')">
                             ${buttonContent}
                         </button>
                     </div>

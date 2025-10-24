@@ -1,6 +1,6 @@
 // Add to cart function with quantity controls
-function addToCart(id, name, price, imageUrl) {
-    console.log("Adding product to cart", id, name, price, imageUrl);
+function addToCart(id, name, price, image_url) {
+    console.log("Adding product to cart", id, name, price, image_url);
     price = parseFloat(price);
     
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -13,7 +13,7 @@ function addToCart(id, name, price, imageUrl) {
             id: id,
             name: name,
             price: price,
-            imageUrl: imageUrl,
+            image_url: image_url,
             quantity: 1
         });
     }
@@ -110,7 +110,7 @@ function loadCart() {
         totalAmount += itemTotal;
         cartItems.innerHTML += `
             <div class="cart-item">
-                <img src="${item.imageUrl}" alt="${item.name}">
+                <img src="${item.image_url}" alt="${item.name}">
                 <div style="flex: 1;">
                     <h3>${item.name}</h3>
                     <p>Price: ₹${item.price}</p>
