@@ -2,10 +2,7 @@ const BASE_URL = "https://bitykart-backend-production.up.railway.app";
 
 async function loadProducts() {
     try {
-        const response = await fetch(`${BASE_URL}/api/products`); // Added /api
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await fetch(`${BASE_URL}/products`);
         const products = await response.json();
 
         let trendingList = document.getElementById("trending-products");
@@ -17,11 +14,16 @@ async function loadProducts() {
         let saltList = document.getElementById("salt-products");
         let sugarList = document.getElementById("sugar-products");
 
-        // Clear all lists
-        [trendingList, teaList, coffeeList, chipsList, coldDrinksList, dryFruitsList, saltList, sugarList]
-            .filter(list => list).forEach(list => list.innerHTML = "");
+        if (trendingList) trendingList.innerHTML = "";
+        if (teaList) teaList.innerHTML = "";
+        if (coffeeList) coffeeList.innerHTML = "";
+        if (chipsList) chipsList.innerHTML = "";
+        if (coldDrinksList) coldDrinksList.innerHTML = "";
+        if (dryFruitsList) dryFruitsList.innerHTML = "";
+        if (saltList) saltList.innerHTML = "";
+        if (sugarList) sugarList.innerHTML = "";
 
-        console.log("Loaded products:", products);
+        console.log(products);
 
         // Get first 6 products for trending
         const trendingProducts = products.slice(0, 6);
@@ -45,16 +47,15 @@ async function loadProducts() {
                 buttonContent = `<i class="fas fa-plus"></i> Add to Cart`;
             }
             
-            // Use product.imageUrl instead of product.image_url
             return `
             <div class="product-card">
-                <img src="${product.imageUrl || product.image_url}" class="product-image" alt="${product.name}">
+                <img src="${product.imageUrl}" class="product-image" alt="${product.name}">
                 <div class="product-info">
                     <h3 class="product-title">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
                     <div class="product-bottom-section">
                         <div class="product-price">₹${product.price}</div>
-                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.imageUrl || product.image_url}')">
+                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.imageUrl}')">
                             ${buttonContent}
                         </button>
                     </div>
@@ -66,29 +67,26 @@ async function loadProducts() {
         products.forEach((product) => {
             let productCard = createProductCard(product);
 
-            // Normalize category for comparison
-            const category = product.category?.toLowerCase().trim();
-            
             // Distribute products by category
-            if (category === "tea" && teaList) {
+            if (product.category === "Tea" && teaList) {
                 teaList.innerHTML += productCard;
             }
-            else if (category === "coffee" && coffeeList) {
+            else if (product.category === "coffee" && coffeeList) {
                 coffeeList.innerHTML += productCard;
             }
-            else if (category === "chips" && chipsList) {
+            else if (product.category === "chips" && chipsList) {
                 chipsList.innerHTML += productCard;
             }
-            else if (category === "cold-drinks" && coldDrinksList) {
+            else if (product.category === "cold-drinks" && coldDrinksList) {
                 coldDrinksList.innerHTML += productCard;
             }
-            else if (category === "dry-fruits" && dryFruitsList) {
+            else if (product.category === "dry-fruits" && dryFruitsList) {
                 dryFruitsList.innerHTML += productCard;
             }
-            else if (category === "salt" && saltList) {
+            else if (product.category === "salt" && saltList) {
                 saltList.innerHTML += productCard;
             }
-            else if (category === "sugar" && sugarList) {
+            else if (product.category === "sugar" && sugarList) {
                 sugarList.innerHTML += productCard;
             }
         });
@@ -105,38 +103,6 @@ async function loadProducts() {
         updateAllProductButtons();
 
     } catch (error) {
-        console.error("Error fetching products:", error);
-        // You might want to show an error message to the user
-        showErrorMessage("Failed to load products. Please try again later.");
+        console.log("fetching Products :", error);
     }
-}
-
-// Add this helper function for error display
-function showErrorMessage(message) {
-    // Create or show an error message element
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #ff4444;
-        color: white;
-        padding: 15px;
-        border-radius: 5px;
-        z-index: 1000;
-    `;
-    errorDiv.textContent = message;
-    document.body.appendChild(errorDiv);
-    
-    // Remove after 5 seconds
-    setTimeout(() => {
-        errorDiv.remove();
-    }, 5000);
-}
-
-// Make sure you have this function defined
-function updateAllProductButtons() {
-    // Your implementation to update button states
-    console.log("Updating product buttons...");
 }
