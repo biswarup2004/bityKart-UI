@@ -531,26 +531,26 @@ body {
     flex: 1 1 auto;
 }
 
-.product-price {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 1rem;
-    margin-top: 0;
-    padding-top: 0;
-    flex-shrink: 0;
+/* FIXED: Product Card Bottom Section */
+.product-bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    gap: 1rem;
 }
 
-/* Updated Add to Cart Button Styles */
+/* FIXED: Add to Cart Button - Remove absolute positioning */
 .add-to-cart {
-    margin-top: 0;
-    width: 100%;
+    width: auto;
+    min-width: 140px;
     min-height: 48px;
     height: 48px;
     background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
     border: none;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -560,16 +560,22 @@ body {
     justify-content: center;
     gap: 0.5rem;
     flex-shrink: 0;
-    position: absolute;
-    bottom: 0;
+    /* Remove absolute positioning */
+    position: static;
 }
 
-.product-bottom-section{
-    position: relative;
-}
 .add-to-cart:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+}
+
+/* Make sure product price is visible */
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+    flex-shrink: 0;
 }
 
 /* Quantity Controls inside Button */

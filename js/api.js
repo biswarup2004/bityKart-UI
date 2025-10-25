@@ -23,13 +23,16 @@ async function loadProducts() {
         if (saltList) saltList.innerHTML = "";
         if (sugarList) sugarList.innerHTML = "";
 
-        console.log(products);
+        console.log("Products data:", products);
 
         // Get first 6 products for trending
         const trendingProducts = products.slice(0, 6);
 
         // Create product card with dynamic button
         function createProductCard(product) {
+            // Debug: Check if price exists
+            console.log(`Creating card for: ${product.name}, Price: ${product.price}, Type: ${typeof product.price}`);
+            
             // Check if product is in cart
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let cartItem = cart.find(item => item.id === product.id);
