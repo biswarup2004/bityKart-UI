@@ -3,16 +3,7 @@ const BASE_URL = "https://bitykart-backend-production.up.railway.app";
 async function loadProducts() {
     try {
         const response = await fetch(`${BASE_URL}/products`);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
         const products = await response.json();
-
-        // Debug: Log the first product to see the actual structure
-        console.log("First product structure:", products[0]);
-        console.log("All products:", products);
 
         let trendingList = document.getElementById("trending-products");
         let teaList = document.getElementById("tea-products");
@@ -23,21 +14,22 @@ async function loadProducts() {
         let saltList = document.getElementById("salt-products");
         let sugarList = document.getElementById("sugar-products");
 
-        // Clear all lists
-        [trendingList, teaList, coffeeList, chipsList, coldDrinksList, dryFruitsList, saltList, sugarList]
-            .forEach(list => list && (list.innerHTML = ""));
+        if (trendingList) trendingList.innerHTML = "";
+        if (teaList) teaList.innerHTML = "";
+        if (coffeeList) coffeeList.innerHTML = "";
+        if (chipsList) chipsList.innerHTML = "";
+        if (coldDrinksList) coldDrinksList.innerHTML = "";
+        if (dryFruitsList) dryFruitsList.innerHTML = "";
+        if (saltList) saltList.innerHTML = "";
+        if (sugarList) sugarList.innerHTML = "";
+
+        console.log(products);
 
         // Get first 6 products for trending
         const trendingProducts = products.slice(0, 6);
 
         // Create product card with dynamic button
         function createProductCard(product) {
-            // Debug: Check price property
-            console.log(`Product ${product.name} price:`, product.price);
-            
-            // Handle different possible price property names
-            const price = product.price || product.Price || product.PRICE || 0;
-            
             // Check if product is in cart
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             let cartItem = cart.find(item => item.id === product.id);
@@ -57,13 +49,13 @@ async function loadProducts() {
             
             return `
             <div class="product-card">
-                <img src="${product.imageUrl || product.image || ''}" class="product-image" alt="${product.name}">
+                <img src="${product.imageUrl}" class="product-image" alt="${product.name}">
                 <div class="product-info">
                     <h3 class="product-title">${product.name}</h3>
-                    <p class="product-description">${product.description || ''}</p>
+                    <p class="product-description">${product.description}</p>
                     <div class="product-bottom-section">
-                        <div class="product-price">₹${price}</div>
-                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${price}, '${product.imageUrl || product.image || ''}')">
+                        <div class="product-price">₹${product.price}</div>
+                        <button class="add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.imageUrl}')">
                             ${buttonContent}
                         </button>
                     </div>
@@ -75,28 +67,26 @@ async function loadProducts() {
         products.forEach((product) => {
             let productCard = createProductCard(product);
 
-            // Distribute products by category - make category names case-insensitive
-            const category = (product.category || '').toLowerCase();
-            
-            if (category.includes("tea") && teaList) {
+            // Distribute products by category
+            if (product.category === "Tea" && teaList) {
                 teaList.innerHTML += productCard;
             }
-            else if (category.includes("coffee") && coffeeList) {
+            else if (product.category === "coffee" && coffeeList) {
                 coffeeList.innerHTML += productCard;
             }
-            else if (category.includes("chip") && chipsList) {
+            else if (product.category === "chips" && chipsList) {
                 chipsList.innerHTML += productCard;
             }
-            else if ((category.includes("cold") || category.includes("drink")) && coldDrinksList) {
+            else if (product.category === "cold-drinks" && coldDrinksList) {
                 coldDrinksList.innerHTML += productCard;
             }
-            else if ((category.includes("dry") || category.includes("fruit")) && dryFruitsList) {
+            else if (product.category === "dry-fruits" && dryFruitsList) {
                 dryFruitsList.innerHTML += productCard;
             }
-            else if (category.includes("salt") && saltList) {
+            else if (product.category === "salt" && saltList) {
                 saltList.innerHTML += productCard;
             }
-            else if (category.includes("sugar") && sugarList) {
+            else if (product.category === "sugar" && sugarList) {
                 sugarList.innerHTML += productCard;
             }
         });
@@ -113,23 +103,6 @@ async function loadProducts() {
         updateAllProductButtons();
 
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.log("fetching Products :", error);
     }
 }
-
-// Add this function to debug the product structure
-function debugProductStructure() {
-    fetch("https://bitykart-backend-production.up.railway.app/products")
-        .then(response => response.json())
-        .then(products => {
-            console.log("Full products array:", products);
-            if (products.length > 0) {
-                console.log("First product keys:", Object.keys(products[0]));
-                console.log("First product values:", Object.values(products[0]));
-            }
-        })
-        .catch(error => console.error("Debug error:", error));
-}
-
-// Call this to see what your API actually returns
-// debugProductStructure();
